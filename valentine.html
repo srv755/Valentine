@@ -1,0 +1,238 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>One Important Question ❤️</title>
+
+  <style>
+    @keyframes fall { to { transform: translateY(100vh); opacity: 0; } }
+
+    .btnSmall{
+      padding:6px 12px;
+      border-radius:10px;
+      font-weight:700;
+      font-size:12px;
+      line-height:1;
+      cursor:pointer;
+      user-select:none;
+      border:1px solid rgba(0,0,0,.12);
+      background:#f7f7f7;
+    }
+
+    .btnPrimary{
+      border:none;
+      background:#ff4d6d;
+      color:#fff;
+    }
+
+    #choiceArena{
+      position:relative;
+      width:280px;
+      height:130px;
+      margin:10px auto 0;
+      border-radius:14px;
+      background:#fff7f9;
+      border:1px dashed #ffd6de;
+      overflow:hidden;
+      padding-top:14px;
+    }
+
+    #movieBtn, #tripBtn{
+      background:#fff0f3;
+      border:1px solid rgba(0,0,0,.10);
+      white-space:nowrap;
+    }
+
+    #tripBtn{
+      position:absolute;
+      left:170px;
+      top:70px;
+      touch-action:none;
+    }
+  </style>
+</head>
+
+<body style="margin:0; padding:0; background:#fff0f3; font-family: Arial, sans-serif;">
+  <table width="100%">
+    <tr>
+      <td align="center" style="padding:30px;">
+        <table width="420" style="background:#fff; border-radius:20px; box-shadow:0 12px 35px rgba(0,0,0,.15); overflow:hidden;">
+          <tr>
+            <td>
+              <img src="us.jpg" style="width:100%; display:block;" alt="Us ❤️">
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:24px; text-align:center;">
+
+              <h2 style="color:#ff4d6d; margin:0 0 10px;">Hey beautiful ❤️</h2>
+              <p style="margin:0 0 14px; color:#555;">
+                Still my favorite dance.<br>
+                Still my favorite person.
+              </p>
+
+              <h1 style="margin:0 0 18px;">Will you be my Valentine? 💘</h1>
+
+              <!-- STAGE -->
+              <div id="stage"
+                style="display:flex; gap:14px; justify-content:center;
+                width:300px; margin:0 auto;
+                border-radius:16px; background:#fff7f9;
+                border:1px dashed #ffd6de; padding:18px;">
+
+                <button id="yesBtn" class="btnSmall">
+                  Yes 🙂
+                </button>
+
+                <button id="hellBtn" class="btnSmall btnPrimary">
+                  Hell Yeah! 🔥
+                </button>
+              </div>
+
+              <!-- CHOICES -->
+              <div id="choices" style="display:none; margin-top:18px;">
+                <h2 style="color:#ff4d6d; margin:0 0 8px; font-size:18px;">
+                  Choose our plan 😍
+                </h2>
+
+                <div id="choiceArena">
+                  <div style="text-align:center;">
+                    <button id="movieBtn" class="btnSmall">
+                      🎬 Movie & Dinner
+                    </button>
+                  </div>
+
+                  <button id="tripBtn" class="btnSmall">
+                    ✈️ Trip
+                  </button>
+
+                  <div id="niceTry"
+                    style="position:absolute; bottom:8px; left:0; right:0;
+                    font-size:11px; color:#777; display:none;">
+                    (Nice try 😌)
+                  </div>
+                </div>
+              </div>
+
+              <!-- MESSAGE -->
+              <div id="movieMsg"
+                style="display:none; margin-top:16px; font-weight:700; color:#ff4d6d;">
+                I had a feeling you’d choose Movie & Dinner 😌🍿
+              </div>
+
+              <!-- LOVE NOTE -->
+              <div id="loveNote"
+                style="display:none; margin-top:14px; padding:16px;
+                background:#fff0f3; border-radius:14px;">
+                <h3 style="margin:0 0 8px;">One last thing… 💌</h3>
+                <p style="margin:0;">
+                  I’d choose you — every day, every lifetime,
+                  in every universe.
+                </p>
+              </div>
+
+              <p style="margin-top:18px; font-weight:700;">
+                Love,<br>
+                Your forever Valentine 💕
+              </p>
+
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+<script>
+  function confetti(){
+    for(let i=0;i<24;i++){
+      const h=document.createElement("div");
+      h.textContent="❤️";
+      h.style.position="fixed";
+      h.style.left=(Math.random()*100)+"vw";
+      h.style.top="-20px";
+      h.style.fontSize=(Math.random()*10+12)+"px";
+      h.style.animation="fall 2.5s linear";
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),2500);
+    }
+  }
+
+  function rand(min,max){
+    return Math.floor(Math.random()*(max-min+1))+min;
+  }
+
+  function placeInside(btn, box, minTop){
+    const c=box.getBoundingClientRect();
+    const b=btn.getBoundingClientRect();
+
+    const maxLeft=Math.max(8, Math.floor(c.width - b.width - 8));
+    const maxTop =Math.max(minTop, Math.floor(c.height - b.height - 8));
+
+    btn.style.left = rand(8, maxLeft) + "px";
+    btn.style.top  = rand(minTop, maxTop) + "px";
+  }
+
+  const stage   = document.getElementById("stage");
+  const choices = document.getElementById("choices");
+  const movie   = document.getElementById("movieBtn");
+  const trip    = document.getElementById("tripBtn");
+  const arena   = document.getElementById("choiceArena");
+  const niceTry = document.getElementById("niceTry");
+  const msg     = document.getElementById("movieMsg");
+  const love    = document.getElementById("loveNote");
+
+  const yesBtn  = document.getElementById("yesBtn");
+  const hellBtn = document.getElementById("hellBtn");
+
+  // BOTH buttons do the same thing
+  function proceed(){
+    stage.style.display="none";
+    choices.style.display="block";
+    confetti();
+  }
+
+  yesBtn.addEventListener("click", proceed);
+  hellBtn.addEventListener("click", proceed);
+
+  // Trip escapes
+  let lastHop=0;
+  function activateTrip(){
+    niceTry.style.display="block";
+    const now=Date.now();
+    if(now-lastHop<120) return;
+    lastHop=now;
+
+    placeInside(trip, arena, 45);
+    setTimeout(()=>placeInside(trip, arena, 45), 70);
+  }
+
+  document.addEventListener("mousemove", (e)=>{
+    const a=arena.getBoundingClientRect();
+    if(e.clientX<a.left||e.clientX>a.right||e.clientY<a.top||e.clientY>a.bottom) return;
+    if(e.target===movie||movie.contains(e.target)) return;
+
+    const r=trip.getBoundingClientRect();
+    const dx=e.clientX-(r.left+r.width/2);
+    const dy=e.clientY-(r.top+r.height/2);
+    if(Math.sqrt(dx*dx+dy*dy)<70) activateTrip();
+  });
+
+  trip.addEventListener("mouseenter", activateTrip);
+  trip.addEventListener("mousedown",(e)=>{e.preventDefault();activateTrip();});
+  trip.addEventListener("click",(e)=>{e.preventDefault();activateTrip();});
+
+  // Movie flow
+  movie.addEventListener("click", ()=>{
+    choices.style.display="none";
+    msg.style.display="block";
+    confetti();
+    setTimeout(()=>{
+      love.style.display="block";
+      confetti();
+    },1200);
+  });
+</script>
+</body>
+</html>
